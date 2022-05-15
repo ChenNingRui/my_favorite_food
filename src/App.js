@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import * as React from 'react';
+import resource from './resource/data.json';
+import HomePage from './pages/HomePage';
+
+function createData(data){
+  let res = [];
+  for(let i = 0; i < data.length; i++){
+    for(let j = 0; j < data[i].items.length; j++){
+      let item = JSON.parse(JSON.stringify(data[i].items[j]));
+      item.value = null;
+      item.group = data[i].name;
+      res.push(item);
+    }
+  }
+  return res;
+}
 
 function App() {
+  let data = createData(resource);
+  const [seletedItems, setSelectedItems] = React.useState([]);
+  const [datas, setDatas] = React.useState(data);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HomePage datas={datas} setDatas={setDatas} seletedItems={seletedItems} setSelectedItems={setSelectedItems}></HomePage>
     </div>
   );
 }
